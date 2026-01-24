@@ -1,3 +1,8 @@
+
+<img width="333" height="250" alt="logo-openstax" src="https://github.com/user-attachments/assets/1efb2f74-4300-41e4-8987-871fd8aa8f90" />
+
+
+
 # OpenStax Standards Classification
 
 **2026 Rice Datathon - Education Track**
@@ -6,7 +11,7 @@ Automatically classify textbook sections with educational standards using machin
 
 ---
 
-## 📋 Project Overview
+##  Project Overview
 
 This project builds a classifier that labels OpenStax textbook sections with appropriate educational standards (e.g., "8.EE.B.6" for understanding slope of a line). 
 
@@ -19,7 +24,7 @@ This project builds a classifier that labels OpenStax textbook sections with app
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -59,7 +64,7 @@ python step3_advanced_model.py
 
 ---
 
-## 📊 Methodology
+##  Methodology
 
 ### Approach 1: TF-IDF + Random Forest (Baseline)
 
@@ -96,7 +101,7 @@ python step3_advanced_model.py
 
 ---
 
-## 📈 Results
+##  Results
 
 ### Model Performance
 
@@ -127,7 +132,7 @@ python step3_advanced_model.py
 
 ---
 
-## 🗂️ File Structure
+##  File Structure
 
 ```
 project/
@@ -149,7 +154,7 @@ project/
 
 ---
 
-## 🔍 Key Findings
+##  Key Findings
 
 ### Data Insights
 1. **99% single-label** - Simplifies the problem significantly
@@ -165,7 +170,7 @@ project/
 
 ---
 
-## 📝 Submission Checklist
+##  Submission Checklist
 
 - [ ] Code repository on GitHub (without data files!)
 - [ ] README.md with clear instructions
@@ -178,7 +183,7 @@ project/
 
 ---
 
-## 🎯 Future Improvements
+##  Future Improvements
 
 If you have more time:
 1. **Fetch URL content** - Currently not used, would improve accuracy
@@ -189,7 +194,7 @@ If you have more time:
 
 ---
 
-## 🏆 Competition Tips
+##  Competition Tips
 
 1. **Start simple** - Get baseline working first (2-3 hours)
 2. **Iterate quickly** - Test ideas fast with cross-validation
@@ -199,7 +204,7 @@ If you have more time:
 
 ---
 
-## 👥 Team Recommendations
+##  Team Recommendations
 
 **Divide work:**
 - Person 1: Data preparation + baseline model
@@ -215,7 +220,7 @@ If you have more time:
 
 ---
 
-## 📧 Contact
+##  Contact
 
 For questions about this code, check:
 1. Comments in the Python files
@@ -224,7 +229,7 @@ For questions about this code, check:
 
 ---
 
-## ⚠️ Important Reminders
+##  Important Reminders
 
 1. **DELETE DATA FILES** after competition (training.json, testing.json)
 2. **DO NOT upload data** to GitHub or public drives
@@ -232,7 +237,7 @@ For questions about this code, check:
 
 ---
 
-## 🎓 Educational Value
+##  Educational Value
 
 This project demonstrates:
 - Real-world text classification
@@ -249,4 +254,3 @@ Perfect for learning about:
 
 ---
 
-**Good luck! 🚀**
