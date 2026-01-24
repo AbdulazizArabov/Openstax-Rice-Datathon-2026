@@ -217,37 +217,7 @@ If you have more time:
 
 ---
 
-##  Contact
 
-For questions about this code, check:
-1. Comments in the Python files
-2. PROJECT_PROPOSAL.md for detailed explanations
-3. Run files with `--help` flag (where implemented)
 
----
 
-##  Important Reminders
-
-1. **DELETE DATA FILES** after competition (training.json, testing.json)
-2. **DO NOT upload data** to GitHub or public drives
-3. **Data is for competition use only**
-
----
-
-##  Educational Value
-
-This project demonstrates:
-- Real-world text classification
-- Handling hierarchical/nested data
-- Feature engineering for NLP
-- Model evaluation and error analysis
-- Practical ML pipeline development
-
-Perfect for learning about:
-- NLP and text classification
-- Educational technology applications
-- Standards-based curriculum mapping
-- Production ML systems
-
----
 
