@@ -1,11 +1,8 @@
 
-<img width="333" height="250" alt="logo-openstax" src="https://github.com/user-attachments/assets/1efb2f74-4300-41e4-8987-871fd8aa8f90" />
-
-
-
 # OpenStax Standards Classification
-
 **2026 Rice Datathon - Education Track**
+
+<img width="333" height="250" alt="logo-openstax" src="https://github.com/user-attachments/assets/1efb2f74-4300-41e4-8987-871fd8aa8f90" />
 
 Automatically classify textbook sections with educational standards using machine learning.
 
