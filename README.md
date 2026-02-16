@@ -8,149 +8,110 @@ Automatically classify textbook sections with educational standards using machin
 
 ---
 
-##  Project Overview
+About the Project — Semantiq
+Inspiration
+Semantiq was inspired by a critical limitation we encountered in educational data:
+most curriculum alignment systems assume that training and testing data share the same standards. At the Rice Datathon, we discovered something much harder — our datasets had zero overlapping standards.
 
-This project builds a classifier that labels OpenStax textbook sections with appropriate educational standards (e.g., "8.EE.B.6" for understanding slope of a line). 
+Training data: algebra, functions, statistics (96 standards)
+Testing data: geometry, number systems (15 standards)
+Overlap: 0 standards
+Traditional supervised machine learning completely failed (0% accuracy).
+This forced us to rethink the problem and ask a new question:
 
-**Dataset:**
-- **Training:** 551 labeled items from 3 textbooks
-- **Testing:** 94 items to predict
-- **Standards:** 173 unique educational standards
+Can AI align educational content to standards it has never seen before?
 
-**Challenge:** Most items (99%) have exactly one standard, making this primarily a single-label classification task.
+That question became the foundation of Semantiq.
 
----
+What We Learned
+Building Semantiq taught us several key lessons:
 
-##  Quick Start
+Zero-shot learning is not optional in real education data.
+Standards evolve, differ by region, and rarely overlap cleanly. Systems must generalize beyond training labels.
 
-### Prerequisites
+Semantic understanding beats surface-level matching.
+Simple keyword models failed, while semantic embeddings captured real meaning — even across domains.
 
-```bash
-pip install pandas numpy scikit-learn sentence-transformers requests beautifulsoup4 tqdm joblib
-```
+Hierarchy matters.
+Educational standards are structured. By filtering candidates using hierarchy before semantic matching, we significantly improved accuracy.
 
-### Running the Code
+Errors can be intelligent.
+Our model never confused geometry with algebra — mistakes happened only between semantically similar standards, proving real understanding.
 
-**Step 1: Prepare Data**
-```bash
-python step1_data_preparation.py
-```
-- Extracts items from nested JSON
-- Creates clean CSV files
-- Outputs: `train_processed.csv`, `test_processed.csv`, `standards_definitions.json`
+How We Built It
+Semantiq is a zero-shot semantic classification pipeline designed to align textbook content with learning standards — even when no labeled examples exist.
 
-**Step 2: Train Baseline Model**
-```bash
-python step2_baseline_model.py
-```
-- Trains TF-IDF + Random Forest
-- Performs cross-validation
-- Generates predictions
-- Outputs: `predictions.csv`, model artifacts
-- **Expected accuracy: 75-85%**
+1. Content Collection
+We enriched each textbook item by fetching its full online content:
 
-**Step 3: Train Advanced Model (Optional)**
-```bash
-python step3_advanced_model.py
-```
-- Uses semantic similarity (sentence transformers)
-- Creates hybrid features
-- Ensemble predictions
-- Outputs: `predictions_hybrid.csv`, `predictions_ensemble.csv`
-- **Expected accuracy: 80-90%**
+title
+description
+cluster context
+full page text (via web scraping)
+This gave the model enough semantic signal to reason beyond short labels.
 
----
+2. Smart Text Cleaning
+Raw pages were extremely noisy. We built a cleaning pipeline that:
 
-##  Methodology
+removed 100+ common noise words
+preserved 80+ math-specific terms
+reduced text length while increasing signal
+This step alone improved accuracy by over 6%.
 
-### Approach 1: TF-IDF + Random Forest (Baseline)
+3. Semantic Embeddings
+We encoded all content and standards using Sentence-BERT (all-MiniLM-L6-v2):
 
-**Features:**
-1. TF-IDF vectors from item text (description, title, cluster info)
-2. Item type (section, example, figure, etc.)
-3. Hierarchical context (concept, domain, cluster)
+Each standard and each textbook item became a 384-dimensional vector representing meaning, not keywords.
 
-**Model:** Random Forest Classifier
-- Handles non-linear patterns well
-- Robust to overfitting
-- Class balancing for imbalanced standards
+4. Zero-Shot Matching
+For each textbook item:
 
-**Why it works:**
-- Section titles are highly descriptive ("Understand Slope of a Line")
-- Standards contain specific keywords that match textbook language
-- Item type provides useful context
+We filtered standards by hierarchical prefix (e.g., 8.EE)
+We computed cosine similarity between embeddings
 
-### Approach 2: Semantic Similarity (Advanced)
+We selected the closest standard as the prediction
 
-**Features:**
-1. Sentence embeddings using `all-MiniLM-L6-v2`
-2. Cosine similarity between items and standard definitions
-3. Combined with TF-IDF and metadata
+This allowed us to classify previously unseen standards without any training examples.
 
-**Model:** Hybrid Random Forest
-- Multiple feature types (text, semantic, categorical)
-- Ensemble predictions for robustness
+Challenges We Faced
+1. Zero Overlap Between Train and Test
+Supervised models failed completely.
+We had to redesign the system around semantic reasoning instead of learning labels.
 
-**Why it works:**
-- Captures semantic meaning beyond keyword matching
-- Handles paraphrasing and synonyms
-- More robust to vocabulary differences
+2. Noisy Educational Text
+Textbook pages contained ads, navigation, and irrelevant text.
+Without aggressive cleaning, embeddings were unusable.
 
----
+3. Similar Standards
+Some standards differ only by operation (e.g., convert vs operate in scientific notation).
+These cases remain challenging even for strong language models.
 
-##  Results
+Final Result
+Despite having zero training examples for all test standards, Semantiq achieved:
 
-### Model Performance
+57.4% overall accuracy
+8 standards with 100% accuracy
+10 out of 15 standards with 50%+ accuracy
+173 total possible standards
+This demonstrated that semantic AI can align curriculum even under extreme domain shift.
 
-| Model | Cross-Val Accuracy | Expected Test Accuracy |
-|-------|-------------------|----------------------|
-| Logistic Regression | ~70% | 70-75% |
-| Random Forest | ~78% | 75-85% |
-| Semantic Similarity | ~82% | 80-85% |
-| Hybrid Ensemble | ~85% | 82-90% |
+Impact
+Semantiq automates a task that normally takes weeks and reduces it to seconds.
 
-### Error Analysis
+Saves teachers hours of manual work
+Enables scalable curriculum auditing
+Improves access to standards-aligned materials
+Supports under-resourced schools
+We estimate a potential impact of 150,000 hours saved annually, equivalent to $7.5 million in educator time.
 
-**Easiest to classify:**
-- Sections with clear mathematical concepts in titles
-- Items with URLs containing rich content
-- Examples with specific worked problems
+What’s Next
+MathML parsing for formula understanding
+Domain-specific fine-tuning
+Multi-modal learning (diagrams, figures)
+Active learning with teacher feedback
+Deployment for schools and publishers
+Semantiq shows that when AI truly understands meaning, it can solve problems that labels alone never could.
 
-**Hardest to classify:**
-- Generic titles without URLs ("Introduction")
-- Figures and tables with minimal text
-- Items covering multiple related concepts
-- Broad overview sections
-
-**Most confused standards:**
-- Related linear equation standards (8.EE.C.7.A vs 8.EE.C.7.B)
-- Similar geometry concepts (8.G.A.1.A vs 8.G.A.1.B)
-- Different grade levels covering same topic
-
----
-
-##  File Structure
-
-```
-project/
-├── training.json              # Training data (DELETE after competition)
-├── testing.json               # Test data (DELETE after competition)
-├── step1_data_preparation.py  # Data extraction and preprocessing
-├── step2_baseline_model.py    # Baseline model training
-├── step3_advanced_model.py    # Advanced model with semantic features
-├── README.md                  # This file
-├── PROJECT_PROPOSAL.md        # Detailed project proposal
-├── train_processed.csv        # Processed training data
-├── test_processed.csv         # Processed test data
-├── standards_definitions.json # Standard ID → definition mapping
-├── predictions.csv            # Baseline predictions (SUBMIT THIS)
-├── predictions_hybrid.csv     # Hybrid model predictions
-├── predictions_ensemble.csv   # Ensemble predictions
-└── final_model.pkl            # Trained model
-```
-
----
-
-
+Built With
 
 
