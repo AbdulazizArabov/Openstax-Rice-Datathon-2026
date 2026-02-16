@@ -75,10 +75,10 @@ Semantiq automates a process that usually requires weeks of subject-matter exper
 * **Savings:** Estimated potential of **150,000 hours saved annually** ($7.5M in educator time).
 
 ## Roadmap
-- [ ] **MathML Parsing:** Better handling of raw formulas and notation.
-- [ ] **Fine-Tuning:** Domain-specific training on pedagogical texts.
-- [ ] **Multi-modal:** Incorporating diagrams and figures into the embeddings.
-- [ ] **Active Learning:** A loop for teacher feedback to correct low-confidence predictions.
+- ✅ **MathML Parsing:** Better handling of raw formulas and notation.
+- ✅ **Fine-Tuning:** Domain-specific training on pedagogical texts.
+- ✅ **Multi-modal:** Incorporating diagrams and figures into the embeddings.
+- ✅ **Active Learning:** A loop for teacher feedback to correct low-confidence predictions.
 
 ## Built With
 * **Lang:** Python
